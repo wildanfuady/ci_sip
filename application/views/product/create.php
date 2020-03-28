@@ -31,7 +31,11 @@
                         <div class="card-header">Create Product</div>
                         <div class="card-body">
                             <?php
-                                $inputs = $this->session->flashdata('inputs');
+                                if(!empty($this->session->flashdata('inputs'))){
+                                    $inputs = $this->session->flashdata('inputs');
+                                } else {
+                                    $inputs = [];
+                                }
                                 $errors = $this->session->flashdata('errors');
                                 if(!empty($errors)){
                             ?>

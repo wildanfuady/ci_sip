@@ -13,12 +13,18 @@ class Product extends CI_Controller {
 
     public function index()
     {
+        $data['category'] = $this->input->get('category');
+        $data['keyword'] = $this->input->get('keyword');
+
+        $cat = $data['category'];
+        $key = $data['keyword'];
+
         $this->load->library('pagination');
         // tentukan jumlah data yang mau ditampilkan
         $per_page = 3;
         // set konfirgurasi
         $config['base_url']             = base_url()."product/index/";
-        $config['total_rows']           = $this->product_model->num_rows();
+        $config['total_rows']           = $this->product_model->num_rows($cat, $key);
         $config['per_page']             = $per_page;
         // set pagination with bootstrap
         $config["uri_segment"]      = 3; 
@@ -51,7 +57,10 @@ class Product extends CI_Controller {
         }
 
         $data['nomor'] = $page;
-        $data['products'] = $this->product_model->paginate($per_page, $page);
+        $categories = $this->category_model->get_all();
+        $data['set_category'] = ['' => 'Pilih Category'] + array_column($categories, 'category_name', 'category_id');
+        
+        $data['products'] = $this->product_model->paginate($per_page, $page, $cat, $key);
 
         $this->load->view('product/index', $data);
     }

@@ -60,6 +60,21 @@
                                     <?php echo $this->session->flashdata('error'); ?>
                                 </div>
                             <?php } ?>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <?php echo form_label('Category'); ?>
+                                        <?php echo form_dropdown('category_id', $set_category, $category, ['class' => 'form-control', 'id' => 'category_id']); ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <?php echo form_label('Keyword'); ?>
+                                        <?php echo form_input('keyword', $keyword, ['class' => 'form-control', 'placeholder' => 'Enter keyword ...', 'id' => 'keyword']); ?>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
@@ -116,5 +131,24 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+<script>
+    $(document).ready(function(){
 
+        $("#category_id").change(function(){
+            filter();
+        });
+        $("#keyword").keypress(function(event){
+            if(event.keyCode == 13){ // enter
+                filter();
+            }
+        });
+
+        var filter = function(){
+            var cat_id = $("#category_id").val();
+            var keyword = $("#keyword").val();
+
+            window.location.replace("<?php echo base_url().'product/index'; ?>?category=" + cat_id + "&keyword=" +keyword);
+        }
+    });
+</script>
 <?php $this->load->view('partials/footer'); ?>
