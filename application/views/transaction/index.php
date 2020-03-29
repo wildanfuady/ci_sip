@@ -28,8 +28,11 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            List All Category
-                            <a href="<?php echo base_url('transaction/create'); ?>" class="btn btn-primary btn-sm float-right">Import Data</a>
+                          List All Transaction
+                          <div class="btn-group float-right">
+                            <a href="<?php echo base_url('transaction/create'); ?>" class="btn btn-primary btn-sm">Import Data</a>
+                            <a href="<?php echo base_url('transaction/export'); ?>" class="btn btn-success btn-sm">Export Data</a>
+                          </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

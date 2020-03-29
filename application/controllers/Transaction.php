@@ -7,6 +7,7 @@ class Transaction extends CI_Controller{
         parent::__construct();
         $this->load->model('transaction_model');
         $this->load->library('session');
+        $this->cek_login();
     }
 
     public function index()
@@ -93,4 +94,44 @@ class Transaction extends CI_Controller{
         $data = $price['product_price'];
         return $data;
     }
+
+    public function export()
+    {
+        $trx = $this->transaction_model->get_all();
+        // tanggal biar nama filenya ada ujung tanggal. contoh: nama_file-12-12-2012.pdf
+        $tanggal = date('d-m-Y');
+        $pdf = new \TCPDF;
+        // ======================== JUDUL ============================
+        // add page
+        $pdf->AddPage();
+        // set font null, bold dan ukuran 20px
+        $pdf->SetFont('', 'B', 20);
+        $pdf->Cell(115, 0, 'Laporan Transaksi - '.$tanggal, 0, 1, 'L');
+        $pdf->SetAutoPageBreak(true, 0);
+
+        // ========================= BODY ==============================
+
+        // 1. Table Header
+        $pdf->Ln(10);
+        $pdf->SetFont('', 'B', 14);
+        $pdf->Cell(15, 8, "No", 1, 0, 'C');
+        $pdf->Cell(100, 8, "Product", 1, 0, 'C');
+        $pdf->Cell(35, 8, "Date", 1, 0, 'C');
+        $pdf->Cell(40, 8, "Price", 1, 1, 'C');
+        $pdf->SetFont('', '', 14);
+        foreach($trx as $key => $transaction) {
+            // 2. Table Data
+            $this->addRow($pdf, $key+1, $transaction);
+        }
+        $tanggal = date('d-m-Y');
+        $pdf->Output('Laporan Transaksi - '.$tanggal.'.pdf'); 
+    }
+    public function addRow($pdf, $no, $transaction)
+    {
+        $pdf->Cell(15, 8, $no, 1, 0, 'C');
+        $pdf->Cell(100, 8, $transaction['product_name'], 1, 0, '');
+        $pdf->Cell(35, 8, date('d-m-Y', strtotime($transaction['trx_date'])), 1, 0, 'C');
+        $pdf->Cell(40, 8, "Rp. ".number_format($transaction['trx_price'], 2, ',' , '.'), 1, 1, 'C');
+    }
+
 }

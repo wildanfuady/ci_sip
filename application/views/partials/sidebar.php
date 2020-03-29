@@ -56,6 +56,15 @@
               </p>
             </a>
           </li>
+          <li class="nav-header">ACCOUNT</li>
+          <li class="nav-item">
+            <a href="<?php echo base_url('auth/logout'); ?>" class="nav-link">
+              <i class="nav-icon far fa-circle text-danger"></i>
+              <p>
+                Logout
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

@@ -9,6 +9,7 @@ class Product extends CI_Controller {
         $this->load->model('category_model');
         $this->load->library('session');
         $this->load->helper('form');
+        $this->cek_login();
     }
 
     public function index()

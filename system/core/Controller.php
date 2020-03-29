@@ -100,4 +100,13 @@ class CI_Controller {
 		return self::$instance;
 	}
 
+	public function cek_login()
+	{
+		$this->load->library('session');
+		if($this->session->userdata('level') != "Admin" && $this->session->userdata('status') != "Active"){
+			$this->session->set_flashdata('errors', ['' => 'Silahkan login terlebih dahulu untuk mengakses data.']);
+			redirect(base_url('auth/login'));
+		}
+	}
+
 }
